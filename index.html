@@ -239,7 +239,7 @@ span.tk-ck{cursor:default}
 <div id="sync" class="sync" hidden></div>
 <div class="tabs" id="tabs" role="tablist"></div>
 <div id="main"></div>
-<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v2</p>
+<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v3</p>
 </div>
 <script>
 // ── GitHub Pages 판 (2026-11-25, J와 같은 방식): 데이터는 Apps Script API에서 받고, 받은 건 이 기기에 저장해 두었다가 다음에 열 때 바로 보여줌 ──
@@ -299,6 +299,11 @@ function tkRender(src,check){
 function tkToggle(src,i){const L=String(src||"").split("\n");if(L[i]===undefined)return src;L[i]=TK_RE_DONE.test(L[i])?L[i].replace(TK_RE_DONE,""):"[x] "+L[i];return L.join("\n")}
 
 const DATA=RAW.days||{}, today=RAW.today, DOCS=RAW.docs;
+// 출결 기록이 하나도 없는 앞날(D가 출결 줄을 비워 보냄)도 "전원 등교 예정"으로 출결 칸을 보여줌 (11/25) — 반 명단·자리표는 다른 날 출결에서 가져옴
+const ROSTER=(()=>{for(const d of Object.keys(DATA).sort()){const a=DATA[d].att,L=a&&a.list;if(!L||!a.tot)continue;const m=new Map();
+  for(const k of ["here","trip","rec","abs","late","wait","early","pend","etc"])(L[k]||[]).forEach(o=>{o=typeof o==="string"?{n:o}:o;if(o&&o.no&&!m.has(o.no))m.set(o.no,{no:o.no,n:o.n,m:""})});
+  if(m.size)return {tot:a.tot,here:[...m.values()].sort((p,q)=>p.no<q.no?-1:1),seat:L.seat};}return null})();
+const noRec=d=>({tot:ROSTER.tot,now:ROSTER.tot,trip:0,abs:0,late:0,early:0,pend:0,at:"",none:1,list:{here:ROSTER.here,seat:ROSTER.seat}});
 const days=Object.keys(DATA).sort();
 const W="일월화수목금토";
 let i=0,openK="";
@@ -365,7 +370,8 @@ function show(){
     const J=x.jo.list;h+='<div class="card jo"><h2>📣 조회·종례 전달사항</h2>'
      +[["조회","🌅"],["종례","🌇"]].map(([w,ic])=>{const L=J.filter(o=>o.w===w);return L.length?'<div class="jw"><div class="jh">'+ic+' '+w+'</div><ul>'+L.map(o=>'<li>'+tkFmt(o.t)+'</li>').join('')+'</ul></div>':''}).join('')
      +(x.jo.at?'<div class="at">'+esc(x.jo.at)+' 수정</div>':'')+'</div>'}
-  if(x.att){const a=x.att,raw=a.list||{},hm=nowHM(),isToday=d===today;
+  const XA=x.att||(ROSTER&&d>=today?noRec(d):null);
+  if(XA){const a=XA,raw=a.list||{},hm=nowHM(),isToday=d===today;
     const fix=v=>typeof v==="string"?{n:v,m:""}:v;
     const L={trip:[],rec:[],abs:[],late:[],wait:[],early:[],plan:[],pend:[],etc:[],here:[]};
     for(const k of ["trip","rec","abs","late","wait","pend","etc"])L[k]=(raw[k]||[]).map(fix);
@@ -378,7 +384,7 @@ function show(){
     h+='<div class="card att"><h2>우리 반 출결'+(d>today?' (예정)':'')+'</h2><button type="button" class="big" data-k="here">'+now+'<small> / '+a.tot+'명 '+(d>today?'등교 예정':'교실에 있음')+(C.etc?' · 위탁 '+C.etc+'명('+L.etc.map(o=>esc(o.n)+(/원적교/.test(o.m||'')?', 원적교 등교':'')).join(' · ')+') 빠짐':'')+'</small></button><div class="grid">'
      +K.map(k=>'<button type="button" data-k="'+k[0]+'"'+(C[k[0]]?'':' disabled')+'><b>'+C[k[0]]+'</b>'+k[1]+'</button>').join('')
      +'</div><div class="det" id="det" hidden></div><div class="hint">숫자를 누르면 누구인지 보여요 · 큰 숫자는 자리표</div>'
-     +(a.at?'<div class="at">'+esc(a.at)+' 기준</div>':'')+'</div>'}
+     +(a.none?'<div class="at">아직 이 날 출결 기록 없음 · 바뀌면 바로 반영돼요</div>':a.at?'<div class="at">'+esc(a.at)+' 기준</div>':'')+'</div>'}
   if(DOCS){ // D 서류확인 칸과 똑같이: 받을 날 된 것 + 지금 보고 있는 날짜 탭 것은 미리 · 결석 미정은 다음 날부터 · 받은 건 그날(진료확인서는 받을 날)까지만 · 받을 날 전 = 제출 예정
     const ref=d>today?d:today; // 앞날 탭이면 그날 기준 · 안 낸 서류는 제출 전까지 이후 모든 날짜에 계속 남음
     const ds=(DOCS.list||[]).filter(o=>!o.day||((!o.u||o.day<ref)&&!(o.got&&o.due<today)&&(o.due<=ref||o.day===d)))
