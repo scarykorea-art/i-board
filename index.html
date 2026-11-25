@@ -241,7 +241,7 @@ span.tk-ck{cursor:default}
 <div id="sync" class="sync" hidden></div>
 <div class="tabs" id="tabs" role="tablist"></div>
 <div id="main"></div>
-<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v7 · ⚡</p>
+<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v8 · ⚡</p>
 </div>
 <script>
 // ── GitHub 판(형 전용): 데이터는 Apps Script ?api=1에서 받고, 받은 건 이 기기에 저장해 두었다가 다음에 열 때 바로 보여줌 ──
@@ -340,8 +340,9 @@ function tabs(){const T=document.getElementById("tabs");
   T.querySelectorAll(".tw button").forEach(b=>b.onclick=()=>{if(+b.dataset.i===i)return document.getElementById("calov")?calClose():calOpen();calClose();i=+b.dataset.i;openK="";tabs();show()})} // 이미 고른 탭을 또 누르면 달력
 // ── 📅 달력 (J와 같은 방식): 날짜 탭이 있는 날(등교일)만 누를 수 있음 ──
 let CALM="";
-function calOpen(){CALM=days[i].slice(0,7);calDraw()}
-function calClose(){const o=document.getElementById("calov");if(o)o.remove();document.removeEventListener("keydown",calKey)}
+function calArrow(on){const e=document.querySelector("#tabs [aria-selected=true] .dd");if(e)e.textContent=on?"▴":"▾"} // 열려 있으면 ▴(누르면 닫힘), 닫혀 있으면 ▾
+function calOpen(){CALM=days[i].slice(0,7);calDraw();calArrow(true)}
+function calClose(){const o=document.getElementById("calov");if(o)o.remove();calArrow(false);document.removeEventListener("keydown",calKey)}
 function calKey(e){if(e.key==="Escape")calClose()}
 function calDraw(){let o=document.getElementById("calov");
   if(!o){o=document.createElement("div");o.id="calov";o.className="calov";o.onclick=e=>{if(e.target===o)calClose()};document.body.appendChild(o);document.addEventListener("keydown",calKey)}
