@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>3학년 2반 알림판</title>
-<link rel="preconnect" href="https://script.google.com"><link rel="preconnect" href="https://script.googleusercontent.com">
+<link rel="preconnect" href="https://script.google.com"><link rel="preconnect" href="https://script.googleusercontent.com"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>3학년 2반 알림판</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f3f6f2;--card:#fff;--ink:#17231d;--mut:#5f6d65;--line:#dbe3dc;--acc:#1f6b4c;--soft:#e2efe7;--warn:#8a3b2e}
@@ -239,10 +240,10 @@ span.tk-ck{cursor:default}
 <div id="sync" class="sync" hidden></div>
 <div class="tabs" id="tabs" role="tablist"></div>
 <div id="main"></div>
-<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v3</p>
+<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v4 · ⚡</p>
 </div>
 <script>
-// ── GitHub Pages 판 (2026-11-25, J와 같은 방식): 데이터는 Apps Script API에서 받고, 받은 건 이 기기에 저장해 두었다가 다음에 열 때 바로 보여줌 ──
+// ── GitHub 판(형 전용): 데이터는 Apps Script ?api=1에서 받고, 받은 건 이 기기에 저장해 두었다가 다음에 열 때 바로 보여줌 ──
 const API="https://script.google.com/macros/s/AKfycbxXq6ya4PThz-qcPxZuwd8A4b9o57HAAXFtF7fP-t4rghCuBIQt_mAikj65kRCMc6gP/exec";
 const CKEY="iboard-cache-v1";
 const seoulToday=()=>new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
@@ -250,7 +251,7 @@ let BOOT_AC=null,BOOT_TM=0;
 function syncMsg(t){const s=document.getElementById("sync");if(!s)return;s.textContent=t||"";s.hidden=!t}
 function START(){
   let C=null;try{C=JSON.parse(localStorage.getItem(CKEY)||"null")}catch(e){}
-  const fresh=C&&C.today===seoulToday(); // 날짜 바뀐 저장본은 안 씀
+  const fresh=C&&C.today===seoulToday();
   if(fresh){BOOT(C);syncMsg("⏳ 최신 내용 확인 중…")}
   else document.getElementById("main").innerHTML='<div class="card empty">불러오는 중…</div>';
   fetch(API+"?api=1",{cache:"no-store"}).then(r=>r.json()).then(j=>{
