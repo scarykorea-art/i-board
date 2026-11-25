@@ -86,7 +86,7 @@ h1{font:700 1.5rem/1.2 "Gowun Dodum","IBM Plex Sans KR",sans-serif;margin:4px 0 
 .tabs .tw .ph{visibility:hidden}
 .tabs .tw .dd{font-style:normal;margin-left:2px;opacity:.7}
 /* 📅 고른 날짜 탭 누르면 뜨는 달력 (J와 같음) */
-.calov{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.35);display:flex;align-items:flex-start;justify-content:center;padding:84px 16px 16px}
+.calov{position:fixed;inset:0;overflow:auto;z-index:70;background:rgba(0,0,0,.35);display:flex;align-items:flex-start;justify-content:center;padding:84px 16px 16px}
 .calbx{width:100%;max-width:360px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:12px 12px 14px;box-shadow:0 12px 32px rgba(0,0,0,.25)}
 .calhd{display:flex;align-items:center;gap:6px;margin-bottom:8px}.calhd b{flex:1;text-align:center;font-size:1.05rem}
 .calhd button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--acc);font:inherit;font-size:1.2rem;font-weight:800;cursor:pointer}
@@ -241,7 +241,7 @@ span.tk-ck{cursor:default}
 <div id="sync" class="sync" hidden></div>
 <div class="tabs" id="tabs" role="tablist"></div>
 <div id="main"></div>
-<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v5 · ⚡</p>
+<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v6 · ⚡</p>
 </div>
 <script>
 // ── GitHub 판(형 전용): 데이터는 Apps Script ?api=1에서 받고, 받은 건 이 기기에 저장해 두었다가 다음에 열 때 바로 보여줌 ──
@@ -345,6 +345,7 @@ function calClose(){const o=document.getElementById("calov");if(o)o.remove();doc
 function calKey(e){if(e.key==="Escape")calClose()}
 function calDraw(){let o=document.getElementById("calov");
   if(!o){o=document.createElement("div");o.id="calov";o.className="calov";o.onclick=e=>{if(e.target===o)calClose()};document.body.appendChild(o);document.addEventListener("keydown",calKey)}
+  {const tb=document.getElementById("tabs").getBoundingClientRect();o.style.top=Math.max(0,Math.round(tb.bottom))+"px";o.style.paddingTop="6px"} // 날짜 탭(오늘 칸) 안 가리게 탭 바로 밑에서 뜸 (11/25)
   const y=+CALM.slice(0,4),m=+CALM.slice(5,7),first=new Date(y,m-1,1).getDay(),n=new Date(y,m,0).getDate(),p=v=>String(v).padStart(2,"0");
   const lo=days[0].slice(0,7),hi=days[days.length-1].slice(0,7),idx=new Map(days.map((d,k)=>[d,k]));
   let g='';for(const w of W)g+='<div class="wd'+(w==="일"?' su':'')+'">'+w+'</div>';
