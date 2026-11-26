@@ -84,7 +84,11 @@ h1{font:700 1.5rem/1.2 "Gowun Dodum","IBM Plex Sans KR",sans-serif;margin:4px 0 
 .tabs .tw button[aria-selected=false]{opacity:.45;transform:scale(.94)}
 .tabs .tw button[aria-selected=false]:hover{opacity:.75}
 .tabs .tw .ph{visibility:hidden}
-.tabs .tw .dd{font-style:normal;margin-left:2px;opacity:.7}
+/* 11/27: 달력 화살표가 안 보인다는 말 → 글자 크기 그대로, 동그란 칩 + 처음에 살짝 두 번 까딱 */
+.tabs .tw .dd{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;margin-left:5px;border-radius:50%;background:rgba(127,127,127,.25);background:color-mix(in srgb,currentColor 30%,transparent);font-size:12px;font-weight:900;line-height:1;vertical-align:-1px;animation:ddNudge 1.2s ease-in-out .6s 2}
+.tabs .tw button:hover .dd{background:color-mix(in srgb,currentColor 36%,transparent)}
+@keyframes ddNudge{0%,100%{transform:translateY(0)}40%{transform:translateY(2px)}}
+@media (prefers-reduced-motion:reduce){.tabs .tw .dd{animation:none}}
 /* 📅 고른 날짜 탭 누르면 뜨는 달력 (J와 같음) */
 .calov{position:fixed;inset:0;overflow:auto;z-index:70;background:rgba(0,0,0,.35);display:flex;align-items:flex-start;justify-content:center;padding:84px 16px 16px}
 .calbx{width:100%;max-width:360px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:12px 12px 14px;box-shadow:0 12px 32px rgba(0,0,0,.25)}
@@ -241,7 +245,7 @@ span.tk-ck{cursor:default}
 <div id="sync" class="sync" hidden></div>
 <div class="tabs" id="tabs" role="tablist"></div>
 <div id="main"></div>
-<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v8 · ⚡</p>
+<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v9 · ⚡</p>
 </div>
 <script>
 // ── GitHub 판(형 전용): 데이터는 Apps Script ?api=1에서 받고, 받은 건 이 기기에 저장해 두었다가 다음에 열 때 바로 보여줌 ──
