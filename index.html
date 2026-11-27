@@ -27,11 +27,35 @@ h1{font:700 1.5rem/1.2 "Gowun Dodum","IBM Plex Sans KR",sans-serif;margin:4px 0 
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
 .card h2{margin:0 0 10px;font-size:1rem}
 .notice{white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
-.att .big{font-size:2.4rem;font-weight:700;color:var(--acc);line-height:1}
-.att .big small{font-size:1rem;color:var(--mut);font-weight:400}
-.att button.big{display:inline-flex;align-items:baseline;gap:4px;background:none;border:2px solid transparent;border-radius:12px;padding:4px 10px;margin:-4px -10px;font:inherit;font-size:2.4rem;font-weight:700;color:var(--acc);cursor:pointer;line-height:1}
-.att button.big.on{border-color:var(--acc);background:var(--soft)}
-.att button.big small::after{content:" ▾";font-size:.8rem}
+/* 출결 칸 = D와 같은 총·결·현 (11/27) · 색만 I 색으로 */
+:root{--tri-bg:var(--bg);--tri-fg:var(--ink);--tri-mut:var(--mut);--tri-ab:#b23a2a;--tri-ab-s:#f8e1dc;--tri-ok:var(--acc);--tri-ok-s:var(--soft);--tri-lt:#8a5a00;--tri-lt-s:#f6ead0;--tri-num:inherit}
+@media(prefers-color-scheme:dark){:root{--tri-ab:#ee9a8a;--tri-ab-s:#3b2420;--tri-lt:#e6b862;--tri-lt-s:#382f1c}}
+/*TRI-CSS*/
+/* 총·결·현 (D·I 같은 모양) — 색은 각 앱에서 --tri-* 로 맞춤 */
+.tri{display:flex;flex-direction:column;gap:6px;width:100%}
+.tri-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.tri-st{display:flex;align-items:baseline;justify-content:center;gap:7px;padding:3px 6px;border-radius:9px;background:var(--tri-bg);border:1.5px solid transparent;color:var(--tri-fg)}
+.tri-l{font-size:.88rem;font-weight:700;color:var(--tri-mut)}
+.tri-st b{font-family:var(--tri-num);font-size:1.45rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.tri-ab .tri-l,.tri-ab b{color:var(--tri-ab)} .tri-ok .tri-l,.tri-ok b{color:var(--tri-ok)}
+.tri-c{font-size:.72rem;color:var(--tri-mut)}
+.tri-tg{cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.tri-ab.tri-tg{border-color:var(--tri-ab-s)} .tri-ok.tri-tg{border-color:var(--tri-ok-s)}
+.tri-ab.on{background:var(--tri-ab-s)} .tri-ok.on{background:var(--tri-ok-s)}
+.tri-tg:focus-visible{outline:2px solid var(--tri-ok);outline-offset:2px}
+.tri-n{display:flex;flex-wrap:wrap;gap:4px;min-width:0}
+.tri-n i{font-style:normal;font-size:.8rem;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;color:var(--tri-ab);background:var(--tri-ab-s)}
+.tri-n i em{font-style:normal;font-family:var(--tri-num);font-size:.72rem;opacity:.75;margin-right:3px}
+.tri-n i small{font-size:.68rem;font-weight:600;opacity:.85;margin-left:4px}
+.tri-n.ok i{color:var(--tri-ok);background:var(--tri-ok-s)}
+.tri-n.ok i.lt{color:var(--tri-lt);background:var(--tri-lt-s)}
+.tri-n.ok i.pl{box-shadow:inset 0 0 0 1px var(--tri-ok)}
+/*/TRI-CSS*/
+.att .tri-st b{font-size:1.6rem}
+.att .tri{margin-top:2px}
+.seatbtn{margin-top:10px;min-height:40px;padding:6px 14px;border-radius:10px;border:1.5px solid var(--acc);background:var(--card);color:var(--acc);font:inherit;font-weight:700;font-size:.88rem;cursor:pointer}
+.seatbtn.on{background:var(--soft)}
+.att .atn{font-size:.8rem;color:var(--mut);margin-top:6px}
 .seat{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px 8px;margin-top:8px}
 .seat span{border:1.5px solid var(--acc);background:var(--card);border-radius:8px;padding:5px 4px;text-align:center;font-size:.85rem;font-weight:700;line-height:1.25;overflow-wrap:anywhere;word-break:keep-all}
 .seat span i{display:block;font-style:normal;font-weight:400;font-size:.7rem;color:var(--mut)}
@@ -45,16 +69,10 @@ h1{font:700 1.5rem/1.2 "Gowun Dodum","IBM Plex Sans KR",sans-serif;margin:4px 0 
 .svt{display:flex;gap:0;margin:8px 0 0;border:1.5px solid var(--acc);border-radius:999px;overflow:hidden;width:fit-content}
 .svt button{min-height:32px;padding:3px 12px;border:0;background:var(--card);color:var(--acc);font:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
 .svt button[aria-pressed=true]{background:var(--acc);color:#fff}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
-@media(max-width:380px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .det ul{margin:6px 0 0;padding:0;list-style:none}.det li{padding:4px 0;border-top:1px dashed var(--line)}.det li:first-child{border-top:0}.det .no{color:var(--mut);font-variant-numeric:tabular-nums;margin-right:6px}.det .m{color:var(--mut);margin-left:6px}
-.grid button{background:var(--soft);border:2px solid transparent;border-radius:10px;padding:8px;text-align:center;font:inherit;font-size:.82rem;color:var(--mut);cursor:pointer;min-height:64px}
-.grid button.on{border-color:var(--acc)}
-.grid button:disabled{cursor:default;opacity:.6}
 .det{margin-top:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);font-size:.95rem}
 .det b{color:var(--acc)}
 .hint{font-size:.75rem;color:var(--mut);margin-top:8px}
-.grid b{display:block;font-size:1.25rem;color:var(--ink)}
 .at{font-size:.75rem;color:var(--mut);margin-top:10px}
 .empty{color:var(--mut)}
 .docs ul{margin:0;padding:0;list-style:none}.docs li{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline;padding:9px 0;border-top:1px dashed var(--line)}.docs li:first-child{border-top:0}
@@ -245,7 +263,7 @@ span.tk-ck{cursor:default}
 <div id="sync" class="sync" hidden></div>
 <div class="tabs" id="tabs" role="tablist"></div>
 <div id="main"></div>
-<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v9 · ⚡</p>
+<p class="foot">일정이 바뀌면 밴드로 공지합니다 · 출결은 반 전체 인원 수만 보여줍니다 · 화면 v10 · ⚡</p>
 </div>
 <script>
 // ── GitHub 판(형 전용): 데이터는 Apps Script ?api=1에서 받고, 받은 건 이 기기에 저장해 두었다가 다음에 열 때 바로 보여줌 ──
@@ -306,10 +324,34 @@ function tkToggle(src,i){const L=String(src||"").split("\n");if(L[i]===undefined
 
 const DATA=RAW.days||{}, today=RAW.today, DOCS=RAW.docs;
 // 출결 기록이 하나도 없는 앞날(D가 출결 줄을 비워 보냄)도 "전원 등교 예정"으로 출결 칸을 보여줌 (11/25) — 반 명단·자리표는 다른 날 출결에서 가져옴
+/*TRI-JS*/
+/* ── 총·결·현 한 줄 (D·I 같은 코드 · 2026-11-27) — 결·현 누르면 번호·이름·사유 칩, 다시 누르면 접힘 ── */
+// o = {tot, out:[{no,n,why}], here:[{no,n,tag,lt}], fut, nOut?, nHere?} · 펼침은 이 기기에 기억 (localStorage "triExp")
+const TRI_EXP=(()=>{try{return JSON.parse(localStorage.getItem("triExp")||"{}")||{}}catch(e){return {}}})();
+const TRI_WHY={trip:"교외체험",rec:"인정결석",abs:"결석",pend:"미등교",etc:"위탁"};
+function triWhy(k,m,fut){m=String(m||"");if(k==="early")return m?(/조퇴/.test(m)?m:m+" 조퇴"):"조퇴";if(k==="wait")return fut?"지각 예정":"오는 중";if(k==="etc")return m||"위탁";return TRI_WHY[k]||k}
+function triEsc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function triNo(no){const n=parseInt(String(no||"").slice(-2),10);return isNaN(n)?"":n}
+function triHTML(o){
+  const srt=a=>(a||[]).slice().sort((p,q)=>(triNo(p.no)||99)-(triNo(q.no)||99)),out=srt(o.out),here=srt(o.here);
+  const nO=o.nOut!=null?o.nOut:out.length,nH=o.nHere!=null?o.nHere:here.length;
+  const st=(k,lab,v,has)=>{const tg=!!(k&&v&&has),on=tg&&!!TRI_EXP[k];
+    return '<span class="tri-st tri-'+(k||"tot")+(tg?" tri-tg":"")+(on?" on":"")+'"'+(tg?' role="button" tabindex="0" data-tri="'+k+'" aria-expanded="'+on+'" title="'+(on?"명단 접기":"명단 보기")+'"':"")+'><span class="tri-l">'+lab+'</span><b>'+v+'</b>'+(tg?'<span class="tri-c">'+(on?"▾":"▸")+'</span>':"")+'</span>'};
+  const chip=(x,cls)=>'<i'+(cls?' class="'+cls+'"':"")+'><em>'+triNo(x.no)+'</em>'+triEsc(x.n)+((x.why||x.tag)?'<small>'+triEsc(x.why||x.tag)+'</small>':"")+'</i>';
+  let h='<div class="tri"><div class="tri-row">'+st("","총",o.tot)+st("ab","결",nO,out.length)+st("ok",o.fut?"예정":"현",nH,here.length)+'</div>';
+  if(TRI_EXP.ab&&out.length&&nO)h+='<div class="tri-n ab">'+out.map(x=>chip(x,"")).join("")+'</div>';
+  if(TRI_EXP.ok&&here.length&&nH)h+='<div class="tri-n ok">'+here.map(x=>chip(x,x.lt?"lt":x.tag?"pl":"")).join("")+'</div>';
+  return h+'</div>'}
+function triBind(root,redraw){root.querySelectorAll("[data-tri]").forEach(sp=>{
+  const go=e=>{e.preventDefault();e.stopPropagation();const k=sp.dataset.tri;TRI_EXP[k]=!TRI_EXP[k];try{localStorage.setItem("triExp",JSON.stringify(TRI_EXP))}catch(x){}redraw()};
+  sp.onclick=go;sp.onkeydown=e=>{if(e.key==="Enter"||e.key===" ")go(e)}})}
+/*/TRI-JS*/
 const ROSTER=(()=>{for(const d of Object.keys(DATA).sort()){const a=DATA[d].att,L=a&&a.list;if(!L||!a.tot)continue;const m=new Map();
   for(const k of ["here","trip","rec","abs","late","wait","early","pend","etc"])(L[k]||[]).forEach(o=>{o=typeof o==="string"?{n:o}:o;if(o&&o.no&&!m.has(o.no))m.set(o.no,{no:o.no,n:o.n,m:""})});
-  if(m.size)return {tot:a.tot,here:[...m.values()].sort((p,q)=>p.no<q.no?-1:1),seat:L.seat};}return null})();
-const noRec=d=>({tot:ROSTER.tot,now:ROSTER.tot,trip:0,abs:0,late:0,early:0,pend:0,at:"",none:1,list:{here:ROSTER.here,seat:ROSTER.seat}});
+  const away=new Set((L.etc||[]).filter(o=>o&&o.no&&!/원적교/.test(o.m||"")).map(o=>o.no)); // 평소 위탁(서규성)은 기록 없는 날에도 빠짐 (11/27)
+  if(m.size)return {tot:a.tot,here:[...m.values()].sort((p,q)=>p.no<q.no?-1:1),away,seat:L.seat};}return null})();
+const noRec=d=>({tot:ROSTER.tot,now:ROSTER.tot-ROSTER.away.size,trip:0,abs:0,late:0,early:0,pend:0,at:"",none:1,
+  list:{here:ROSTER.here.filter(o=>!ROSTER.away.has(o.no)),etc:ROSTER.here.filter(o=>ROSTER.away.has(o.no)).map(o=>({no:o.no,n:o.n,m:"위탁"})),seat:ROSTER.seat}});
 const days=Object.keys(DATA).sort();
 const W="일월화수목금토";
 let i=0,openK="";
@@ -387,11 +429,15 @@ function show(){
     L.here=(raw.here||[]).map(fix); const SEAT=Array.isArray(raw.seat)?raw.seat:null; // 현재원 자리표 (D 자리표와 같은 배치)
     const has=Object.keys(raw).length>0;
     const C=has?Object.fromEntries(Object.keys(L).map(k=>[k,L[k].length])):{trip:a.trip,rec:0,abs:a.abs,late:a.late,wait:0,early:a.early,plan:0,pend:a.pend,etc:Math.max(0,a.tot-a.now-a.trip-a.abs-a.early-a.pend)};
-    const now=a.tot-C.trip-C.rec-C.abs-C.early-C.pend-C.wait-C.etc;A={L,C,SEAT,fut:d>today};
-    const K=[["trip","교외체험"],["rec","인정결석"],["abs","결석"],["late","지각"],["early","조퇴"],["plan","조퇴 예정"],["wait","지각 예정"],["pend","확인 중"]]; // 위탁은 칸 없이 큰 숫자 옆에 글로
-    h+='<div class="card att"><h2>우리 반 출결'+(d>today?' (예정)':'')+'</h2><button type="button" class="big" data-k="here">'+now+'<small> / '+a.tot+'명 '+(d>today?'등교 예정':'교실에 있음')+(C.etc?' · 위탁 '+C.etc+'명('+L.etc.map(o=>esc(o.n)+(/원적교/.test(o.m||'')?', 원적교 등교':'')).join(' · ')+') 빠짐':'')+'</small></button><div class="grid">'
-     +K.map(k=>'<button type="button" data-k="'+k[0]+'"'+(C[k[0]]?'':' disabled')+'><b>'+C[k[0]]+'</b>'+k[1]+'</button>').join('')
-     +'</div><div class="det" id="det" hidden></div><div class="hint">숫자를 누르면 누구인지 보여요 · 큰 숫자는 자리표</div>'
+    const now=a.tot-C.trip-C.rec-C.abs-C.early-C.pend-C.wait-C.etc,fut=d>today;
+    // 총·결·현 (D와 같은 코드 · 11/27): 결 = 교외체험·인정·결석·조퇴·미등교·오는 중·위탁 (사유 작게) / 현 = 지각·조퇴 예정 표시
+    const OUT=[];for(const k of ["trip","rec","abs","early","pend","wait","etc"])L[k].forEach(o=>OUT.push({no:o.no,n:o.n,why:triWhy(k,o.m,fut)}));
+    const lateS=new Set(L.late.map(o=>o.no)),HERE=L.here.map(o=>({no:o.no,n:o.n,tag:lateS.has(o.no)?"지각":"",lt:lateS.has(o.no)}))
+      .concat(L.plan.map(o=>({no:o.no,n:o.n,tag:"조퇴 예정"+(o.t?" "+o.t:"")})));
+    A={L,C,SEAT,fut,tri:{tot:a.tot,out:OUT,here:HERE,fut,nOut:a.tot-now,nHere:now}};
+    h+='<div class="card att"><h2>우리 반 출결'+(fut?' (예정)':'')+'</h2><div id="triBox"></div>'
+     +(SEAT?'<button type="button" class="seatbtn" data-k="here" aria-expanded="false">🪑 자리표 보기</button>':'')+'<div class="det" id="det" hidden></div>'
+     +(has?'':'<div class="atn">명단은 아직 안 넘어왔어요</div>')
      +(a.none?'<div class="at">아직 이 날 출결 기록 없음 · 바뀌면 바로 반영돼요</div>':a.at?'<div class="at">'+esc(a.at)+' 기준</div>':'')+'</div>'}
   if(DOCS){ // D 서류확인 칸과 똑같이: 받을 날 된 것 + 지금 보고 있는 날짜 탭 것은 미리 · 결석 미정은 다음 날부터 · 받은 건 그날(진료확인서는 받을 날)까지만 · 받을 날 전 = 제출 예정
     const ref=d>today?d:today; // 앞날 탭이면 그날 기준 · 안 낸 서류는 제출 전까지 이후 모든 날짜에 계속 남음
@@ -404,21 +450,19 @@ function show(){
      +(DOCS.at?'<div class="at">'+esc(DOCS.at)+' 기준</div>':'')+'</div>'}
   m.innerHTML=h;
   if(d===today)tkNowDot(m);
-  if(A){const N={here:A.fut?"등교 예정 자리표":"지금 교실 자리표",trip:"교외체험",rec:"인정결석",abs:"결석",late:"지각",early:"조퇴",plan:"조퇴 예정",wait:"지각 예정",pend:"확인 중",etc:"위탁"};
-    m.querySelectorAll(".grid button,button.big").forEach(b=>{if(b.dataset.k===openK)b.classList.add("on");b.onclick=()=>{openK=openK===b.dataset.k?"":b.dataset.k;detail()}});
-    function detail(){const det=document.getElementById("det");m.querySelectorAll(".grid button,button.big").forEach(o=>o.classList.toggle("on",o.dataset.k===openK));
+  if(A){const tb=document.getElementById("triBox"),triDraw=()=>{tb.innerHTML=triHTML(A.tri);triBind(tb,triDraw)};triDraw();
+    m.querySelectorAll("button.seatbtn").forEach(b=>{b.onclick=()=>{openK=openK==="here"?"":"here";detail()}});
+    function detail(){const det=document.getElementById("det");m.querySelectorAll("button.seatbtn").forEach(o=>{const on=openK==="here";o.classList.toggle("on",on);o.setAttribute("aria-expanded",String(on));o.textContent=on?"🪑 자리표 접기":"🪑 자리표 보기"});
       if(openK==="here"){seatShow(det);return}
-      if(!openK||!A.C[openK]){det.hidden=true;return}
-      const ns=A.L[openK]||[];
-      det.innerHTML='<b>'+N[openK]+'</b>'+(ns.length?'<ul>'+ns.map(o=>'<li>'+(o.no?'<span class="no">'+esc(o.no)+'</span>':'')+esc(o.n)+(o.m?'<span class="m">· '+esc(o.m)+'</span>':'')+'</li>').join('')+'</ul>':' · 명단이 아직 없어요');det.hidden=false}
+      det.hidden=true}
     function seatShow(det){det.innerHTML=seatHTML();det.hidden=false;
       det.querySelectorAll("[data-sv]").forEach(b=>b.onclick=()=>{SV=b.dataset.sv;try{localStorage.setItem("seatView",SV)}catch(e){}seatShow(det)})}
     function seatHTML(){ // 자리표: 있는 학생은 진하게, 없는 학생은 흐리게 + 사유
-      const P={},num=no=>parseInt(String(no).slice(-2),10),OUTN={trip:"교외체험",rec:"인정결석",abs:"결석",early:"조퇴",wait:"지각 예정",pend:"확인 중",etc:"위탁"};
+      const P={},num=no=>parseInt(String(no).slice(-2),10);
       A.L.here.forEach(o=>P[num(o.no)]={n:o.n,t:""});
       A.L.late.forEach(o=>{const k=num(o.no);P[k]=P[k]||{n:o.n,t:""};if(!P[k].out)P[k].t="지각"});
       A.L.plan.forEach(o=>P[num(o.no)]={n:o.n,t:"조퇴 예정"});
-      for(const k in OUTN)(A.L[k]||[]).forEach(o=>P[num(o.no)]={n:o.n,t:OUTN[k],out:1});
+      for(const k of ["trip","rec","abs","early","pend","wait","etc"])(A.L[k]||[]).forEach(o=>P[num(o.no)]={n:o.n,t:triWhy(k,o.m,A.fut),out:1}); // 사유 글자 = 총·결·현과 같은 triWhy
       if(!A.SEAT||!Object.keys(P).length)return '<b>'+(A.fut?"등교 예정":"교실에 있는 학생")+'</b> · 자리표가 아직 안 넘어왔어요';
       const used=new Set();let g="";
       const W=Math.max(5,...A.SEAT.map(r=>r.length)),pad=r=>r.concat(Array(W-r.length).fill(0));
@@ -461,8 +505,8 @@ START();
         setTimeout(()=>{const t=document.getElementById("tabs"),off=(t&&getComputedStyle(t).position==="sticky"?t.getBoundingClientRect().height:0)+12;
           scrollTo({top:c.getBoundingClientRect().top+scrollY-off,behavior:"smooth"});c.classList.remove("qjfl");void c.offsetWidth;c.classList.add("qjfl")},30)};
       menu.appendChild(b);
-      if(c.classList.contains("att")&&c.querySelector("button.big")){const z=document.createElement("button");z.type="button";z.setAttribute("role","menuitem");z.textContent="🪑 자리표";
-        z.onclick=()=>{close();const big=c.querySelector("button.big");if(!big.classList.contains("on"))big.click();
+      if(c.classList.contains("att")&&c.querySelector("button.seatbtn")){const z=document.createElement("button");z.type="button";z.setAttribute("role","menuitem");z.textContent="🪑 자리표";
+        z.onclick=()=>{close();const big=c.querySelector("button.seatbtn");if(!big.classList.contains("on"))big.click();
           setTimeout(()=>{const det=document.getElementById("det")||c;scrollTo({top:det.getBoundingClientRect().top+scrollY-12,behavior:"smooth"});det.classList.remove("qjfl");void det.offsetWidth;det.classList.add("qjfl")},60)};
         menu.appendChild(z)}});
     if(!menu.children.length)return;menu.hidden=false;btn.setAttribute("aria-expanded","true")};
